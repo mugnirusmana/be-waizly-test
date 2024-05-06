@@ -1,4 +1,5 @@
 <?php
+use Carbon\Carbon;
 
 if (!function_exists('encryptToken')) {
     function encryptToken($data) {
@@ -82,7 +83,6 @@ if (!function_exists('isTokenExpired')) {
 if (!function_exists('paginateData')) {
     function paginateData($data) {
         $response = [
-            'list' => [],
             'paginate' => [
                 'current_page' => 1,
                 'prev_page' => null,
@@ -92,7 +92,8 @@ if (!function_exists('paginateData')) {
                 'total_list' => null,
                 'total_data' => null,
                 'pages' => []
-            ]
+            ],
+            'list' => []
         ];
 
         if ($data) {
@@ -100,7 +101,6 @@ if (!function_exists('paginateData')) {
             $prev_page = $data['prev_page_url'] ? (int) explode('=', $data['prev_page_url'])[1] : null;
             $next_page = $data['next_page_url'] ? (int) explode('=', $data['next_page_url'])[1] : null;
             $response = [
-                'list' => $data['data'],
                 'paginate' => [
                     'current_page' => $data['current_page'],
                     'prev_page' => $prev_page,
@@ -109,7 +109,8 @@ if (!function_exists('paginateData')) {
                     'total_page' => (int) $data['last_page'],
                     'total_list' => (int) $data['to'],
                     'total_data' => (int) $data['total'],
-                ]
+                ],
+                'list' => $data['data']
             ];
             foreach($data['links'] as $item) {
                 if ($item['label'] != '&laquo; Previous' && $item['label'] != 'Next &raquo;') {
