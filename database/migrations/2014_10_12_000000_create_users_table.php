@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('username')->unique();
             $table->boolean('is_verified')->default(false);
             $table->string('password');
-            $table->rememberToken();
+            $table->text('token')->nullable();
             $table->timestamps();
         });
     }
