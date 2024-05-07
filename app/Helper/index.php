@@ -149,3 +149,9 @@ if (!function_exists('setValidationMessage')) {
         return $errors;
     }
 }
+
+if (!function_exists('getAuth')) {
+    function getAuth($request) {
+        return decryptToken($request->header('Authorization'));
+    }
+}

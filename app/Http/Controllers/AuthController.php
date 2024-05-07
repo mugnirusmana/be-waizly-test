@@ -101,7 +101,7 @@ class AuthController extends Controller
             ]);
 
             DB::commit();
-            return setRes(null, 201, 'Data successfully created');
+            return setRes(null, 201);
         } catch (\Exception $e) {
             DB::rollback();
             return setRes(null, $e->getMessage() ? 400 : 500, $e->getMessage() ?? null);

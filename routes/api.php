@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\TaskController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,4 +35,18 @@ Route::group([
     Route::get('/test-6', [EmployeeController::class, 'test6']);
     Route::get('/test-7', [EmployeeController::class, 'test7']);
     Route::get('/test-8', [EmployeeController::class, 'test8']);
+});
+
+Route::group([
+    'prefix' => '/fe-test-1',
+    'middleware' => 'check_token'
+], function() {
+    Route::get('/', [TaskController::class, 'list']);
+    Route::post('/create', [TaskController::class, 'create']);
+    Route::put('/edit/{id}', [TaskController::class, 'edit']);
+    Route::get('/detail/{id}', [TaskController::class, 'detail']);
+    Route::delete('/delete/{id}', [TaskController::class, 'destroy']);
+    Route::post('/sort', [TaskController::class, 'sort']);
+    Route::get('/todo/{id}', [TaskController::class, 'todo']);
+    Route::get('/complete/{id}', [TaskController::class, 'complete']);
 });
