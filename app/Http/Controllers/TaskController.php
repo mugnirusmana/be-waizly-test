@@ -34,11 +34,9 @@ class TaskController extends Controller
         try {
             $validator = Validator::make($request->all(), [
                 'name' => ['required', 'unique:tasks'],
-                'description' => ['required']
             ], [
                 'name.required' => 'Name is required',
                 'name.unique' => 'Name has been taken, tray another name',
-                'description.required' => 'Description is required',
             ]);
 
             if ($validator->fails()) {
@@ -58,7 +56,7 @@ class TaskController extends Controller
                 'status' => Task::$todo,
                 'sort_number' => $lates_sort ? (string) ((int) $lates_sort->sort_number + 1) : '1',
                 'user_id' => $data_user->id,
-                'desc' => $request->description,
+                'desc' => $request->description??'',
             ]);
 
             DB::commit();
@@ -75,11 +73,9 @@ class TaskController extends Controller
         try {
             $validator = Validator::make($request->all(), [
                 'name' => ['required', 'unique:tasks,name,'.$id],
-                'description' => ['required']
             ], [
                 'name.required' => 'Name is required',
                 'name.unique' => 'Name has been taken, tray another name',
-                'description.required' => 'Description is required',
             ]);
 
             if ($validator->fails()) {
@@ -104,7 +100,7 @@ class TaskController extends Controller
             }
 
             $task->name = $request->name;
-            $task->desc = $request->description;
+            if ($request->description) $task->desc = $request->description;
             $task->save();
 
             DB::commit();
