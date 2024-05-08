@@ -15,7 +15,7 @@ class TaskController extends Controller
             $status = isset($request->status) ? $request->status : Task::$todo;
 
             $data = Task::when($keyword, function($query, $value) {
-                    $query->where('name', 'ilike', '%'.$s.'%');
+                    $query->where('name', 'like', '%'.$value.'%');
                 })
                 ->when($status, function($query, $value) {
                     $query->where('status', '=', $value);

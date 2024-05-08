@@ -17,9 +17,9 @@ class EmployeeController extends Controller
             
             $data = Employee::when($keyword, function($query, $keyword) {
                 $query->where(function($query) use ($keyword) {
-                    $query->where('name', 'ilike', '%'.$keyword.'%')
-                        ->orWhere('job_title', 'ilike', '%'.$keyword.'%')
-                        ->orWhere('department', 'ilike', '%'.$keyword.'%');
+                    $query->where('name', 'like', '%'.$keyword.'%')
+                        ->orWhere('job_title', 'like', '%'.$keyword.'%')
+                        ->orWhere('department', 'like', '%'.$keyword.'%');
                 });
             })->orderBy('updated_at', 'DESC')
             ->paginate($perPage = $limit, $columns = ['*'], $pageName = 'page', $page = $current_page);
