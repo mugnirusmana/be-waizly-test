@@ -18,23 +18,19 @@ class CheckToken
     public function handle(Request $request, Closure $next)
     {
         $token = $request->header('Authorization');
-        if (!$token) {
-            return setRes(null, 401);
-        }
+        $force_logout = $request->header('Force-Logout');
+
+        if (!$token) return setRes(null, 401);
 
         $decode_token = decryptToken($token);
-        if($decode_token === 'error') {
-            return setRes(null, 401, 'Unauthorized - Invalid token');
-        }
+        if($decode_token === 'error') return setRes(null, 401, 'Unauthorized - Invalid token');
 
-        $isExpired = isTokenExpired($decode_token->expired_until);
-        if($isExpired) {
-            return setRes(null, 401, 'Unauthorized - Token has expired');
-        }
-
-        $data = User::where('token', $token)->first();
-        if(!$data) {
-            return setRes(null, 401, 'Unauthorized - Your token is invalid or you were login on another session');
+        if ($force_logout !== "yes") {
+            $isExpired = isTokenExpired($decode_token->expired_until);
+            if($isExpired) return setRes(null, 401, 'Unauthorized - Token has expired');
+    
+            $data = User::where('token', $token)->first();
+            if(!$data) return setRes(null, 401, 'Unauthorized - Your token is invalid or you were login on another session');
         }
 
         return $next($request);

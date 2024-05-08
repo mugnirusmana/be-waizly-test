@@ -24,29 +24,33 @@ Route::group([
 });
 
 Route::group([
-    'prefix' => '/be-test-2',
     'middleware' => 'check_token'
-], function() {
-    Route::get('/test-1', [EmployeeController::class, 'test1']);
-    Route::get('/test-2', [EmployeeController::class, 'test2']);
-    Route::get('/test-3', [EmployeeController::class, 'test3']);
-    Route::get('/test-4', [EmployeeController::class, 'test4']);
-    Route::get('/test-5', [EmployeeController::class, 'test5']);
-    Route::get('/test-6', [EmployeeController::class, 'test6']);
-    Route::get('/test-7', [EmployeeController::class, 'test7']);
-    Route::get('/test-8', [EmployeeController::class, 'test8']);
-});
+], function () {
+    Route::get('/logout', [AuthController::class, 'logout']);
 
-Route::group([
-    'prefix' => '/fe-test-1',
-    'middleware' => 'check_token'
-], function() {
-    Route::get('/', [TaskController::class, 'list']);
-    Route::post('/create', [TaskController::class, 'create']);
-    Route::put('/edit/{id}', [TaskController::class, 'edit']);
-    Route::get('/detail/{id}', [TaskController::class, 'detail']);
-    Route::delete('/delete/{id}', [TaskController::class, 'destroy']);
-    Route::post('/sort', [TaskController::class, 'sort']);
-    Route::get('/todo/{id}', [TaskController::class, 'todo']);
-    Route::get('/complete/{id}', [TaskController::class, 'complete']);
+    Route::group([
+        'prefix' => '/be-test-2',
+    ], function() {
+        Route::get('/test-1', [EmployeeController::class, 'test1']);
+        Route::get('/test-2', [EmployeeController::class, 'test2']);
+        Route::get('/test-3', [EmployeeController::class, 'test3']);
+        Route::get('/test-4', [EmployeeController::class, 'test4']);
+        Route::get('/test-5', [EmployeeController::class, 'test5']);
+        Route::get('/test-6', [EmployeeController::class, 'test6']);
+        Route::get('/test-7', [EmployeeController::class, 'test7']);
+        Route::get('/test-8', [EmployeeController::class, 'test8']);
+    });
+
+    Route::group([
+        'prefix' => '/fe-test-1',
+    ], function() {
+        Route::get('/', [TaskController::class, 'list']);
+        Route::post('/create', [TaskController::class, 'create']);
+        Route::put('/edit/{id}', [TaskController::class, 'edit']);
+        Route::get('/detail/{id}', [TaskController::class, 'detail']);
+        Route::delete('/delete/{id}', [TaskController::class, 'destroy']);
+        Route::post('/sort', [TaskController::class, 'sort']);
+        Route::get('/todo/{id}', [TaskController::class, 'todo']);
+        Route::get('/complete/{id}', [TaskController::class, 'complete']);
+    });
 });

@@ -67,13 +67,31 @@ class AuthController extends Controller
         }
     }
 
+    function logout(Request $request) {
+        DB::beginTransaction();
+        try {
+            $data_user = getAuth($request);
+
+            $user = User::find($data_user->id);
+            $user->token = null;
+            $user->save();
+
+            DB::commit();
+
+            return setRes(null, 200);
+        } catch (\Exception $e) {
+            DB::rollback();
+            return setRes(null, $e->getMessage() ? 400 : 500, $e->getMessage() ?? null);
+        }
+    }
+
     function register(Request $request) {
         DB::beginTransaction();
         try {
             $validator = Validator::make($request->all(), [
                 'name' => ['required'],
                 'email' => ['required', 'unique:users', 'email'],
-                'username' => ['required', 'unique:users', 'regex:/^[a-zA-Z][0-9]+$/'],
+                'username' => ['required', 'unique:users', 'regex:/^[a-zA-Z][a-zA-Z0-9]+$/'],
                 'password' => ['required'],
             ], [
                 'name.required' => 'Name is required',
