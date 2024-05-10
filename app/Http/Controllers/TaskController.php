@@ -13,6 +13,7 @@ class TaskController extends Controller
         try {
             $keyword = isset($request->keyword) ? $request->keyword : null;
             $status = isset($request->status) ? $request->status : Task::$todo;
+            $data_user = getAuth($request);
 
             $data = Task::when($keyword, function($query, $value) {
                     $query->where('name', 'like', '%'.$value.'%');
@@ -20,6 +21,7 @@ class TaskController extends Controller
                 ->when($status, function($query, $value) {
                     $query->where('status', '=', $value);
                 })
+                ->where('user_id', $data_user->id)
                 ->orderBy('sort_number', 'desc')
                 ->get();
 
