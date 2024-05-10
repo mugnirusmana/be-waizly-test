@@ -98,7 +98,7 @@ class TaskController extends Controller
 
             if ($task->user_id !== $data_user->id) {
                 DB::rollback();
-                return setRes(null, 400, 'You can only edit your own task');
+                return setRes(null, 403, 'You can only edit your own task');
             }
 
             $task->name = $request->name;
@@ -125,7 +125,7 @@ class TaskController extends Controller
 
             if ($task->user_id !== $data_user->id) {
                 DB::rollback();
-                return setRes(null, 400, 'You can only get your own task');
+                return setRes(null, 403, 'You can only get your own task');
             }
 
             return setRes($task, 200);
@@ -147,7 +147,7 @@ class TaskController extends Controller
 
             if ($task->user_id !== $data_user->id) {
                 DB::rollback();
-                return setRes(null, 400, 'You can only delete your own task');
+                return setRes(null, 403, 'You can only delete your own task');
             }
 
             $task->delete();
@@ -230,7 +230,7 @@ class TaskController extends Controller
 
             if ($task->user_id !== $data_user->id) {
                 DB::rollback();
-                return setRes(null, 400, 'You can only update your own task');
+                return setRes(null, 403, 'You can only update your own task');
             }
 
             if($task->status === Task::$todo) {
@@ -263,7 +263,7 @@ class TaskController extends Controller
 
             if ($task->user_id !== $data_user->id) {
                 DB::rollback();
-                return setRes(null, 400, 'You can only update your own task');
+                return setRes(null, 403, 'You can only update your own task');
             }
 
             if($task->status === Task::$complete) {
