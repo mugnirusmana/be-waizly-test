@@ -32,10 +32,11 @@ class EmployeeController extends Controller
 
     function test2(Request $request) {
         try {
-            $data = Employee::where('job_title', $request->job_title)->count();
+            $data = Employee::where('job_title', $request->job_title)->get();
             $res = [
                 'job_title' => $request->job_title,
-                'total' => $data
+                'total' => count($data),
+                'data' => $data
             ];
             return setRes($res, 200);
         } catch(\Exception $e) {
