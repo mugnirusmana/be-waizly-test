@@ -152,6 +152,8 @@ if (!function_exists('setValidationMessage')) {
 
 if (!function_exists('getAuth')) {
     function getAuth($request) {
+        $token = $request->header('Authorization');
+        $token = explode(' ', $token);
         return decryptToken($request->header('Authorization'));
     }
 }

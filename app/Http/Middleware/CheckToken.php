@@ -22,6 +22,8 @@ class CheckToken
 
         if (!$token) return setRes(null, 401);
 
+        $token = explode(' ', $token)[1];
+
         $decode_token = decryptToken($token);
         if($decode_token === 'error') return setRes(null, 401, 'Unauthorized - Invalid token');
 
